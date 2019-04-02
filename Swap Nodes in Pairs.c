@@ -5,23 +5,29 @@
  *     struct ListNode *next;
  * };
  */
-void swap(struct ListNode *a, struct ListNode *b){
-    int tmp;
-    tmp = a->val;
-    a->val = b->val;
-    b->val = tmp;
-}
-
 struct ListNode* swapPairs(struct ListNode* head) {
     struct ListNode *i;
+    struct ListNode *newhead;
+    struct ListNode *tmp, *pre=NULL;
+    if(head!=NULL && head->next!=NULL){
+        newhead = head->next;
+    }else{
+        newhead = head;
+    }
     i = head;
     while(i!=NULL){
         if(i->next!=NULL){
-            swap(i, i->next);
-            i = i->next->next;
+            tmp = i->next;
+            i->next = tmp->next;
+            tmp->next = i;
+            if(pre!=NULL){
+                pre->next = tmp;
+            }
+            pre = i;
+            i = i->next;
         }else{
             break;
         }
     }
-    return head;
+    return newhead;
 }
